@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxeAuto | Voitures de Luxe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .logo span {
+            color: #e63946;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #e63946;
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: relative;
+            color: #333;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #e63946;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('DT_web_001.jpg') center/cover no-repeat;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 5%;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-btn {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-btn:hover {
+            background-color: #c1121f;
+        }
+        
+        /* Filter Section */
+        .filters {
+            padding: 2rem 5%;
+            background-color: white;
+        }
+        
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: #e63946;
+            color: white;
+            border-color: #e63946;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.5rem;
+        }
+        
+        .search-box input {
+            border: none;
+            outline: none;
+            padding: 0 0.5rem;
+            font-size: 1rem;
+        }
+        
+        /* Products Section */
+        .products {
+            padding: 3rem 5%;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #e63946;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #e63946;
+            color: white;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-category {
+            color: #e63946;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-desc {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .add-to-cart {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.3s;
+        }
+        
+        .add-to-cart:hover {
+            background-color: #e63946;
+        }
+        
+        .wishlist-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .wishlist-btn:hover {
+            color: #e63946;
+        }
+        
+        /* Categories Section */
+        .categories {
+            padding: 4rem 5%;
+            background-color: #f1faee;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .category-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .category-icon {
+            font-size: 2.5rem;
+            color: #e63946;
+            margin-bottom: 1rem;
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .category-desc {
+            color: #666;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 3rem 5% 1rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-brand .logo {
+            color: white;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .footer-desc {
+            margin-bottom: 1.5rem;
+            color: #ccc;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background-color: #444;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-link:hover {
+            background-color: #e63946;
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #e63946;
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-link {
+            margin-bottom: 0.7rem;
+        }
+        
+        .footer-link a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link a:hover {
+            color: #e63946;
+        }
+        
+        .footer-link i {
+            margin-right: 0.5rem;
+            color: #e63946;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #444;
+            color: #ccc;
+        }
+        
+        /* Modal Styles */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cart-modal.active {
+            right: 0;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-header h2 {
+            font-size: 1.5rem;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-item img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-title {
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+        
+        .cart-item-price {
+            color: #e63946;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quantity-btn {
+            background: #f1f1f1;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .item-quantity {
+            margin: 0 0.5rem;
+        }
+        
+        .remove-item {
+            background: none;
+            border: none;
+            color: #e63946;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        
+        .cart-total {
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-top: 1px solid #eee;
+        }
+        
+        .checkout-btn {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 1rem;
+            margin: 0 1.5rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #c1121f;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* Payment Section */
+        .payment-section {
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+            display: none;
+        }
+        
+        .payment-section h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .payment-total {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .payment-methods {
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-methods h4 {
+            margin-bottom: 1rem;
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.7rem;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .payment-method:hover {
+            border-color: #e63946;
+        }
+        
+        .payment-method input {
+            margin-right: 0.7rem;
+        }
+        
+        .payment-method-details {
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 2rem;
+                transition: left 0.3s;
+                gap: 2rem;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .filter-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .cart-modal {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        /* PayPal Button Container */
+        #paypal-button-container {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="logo">Luxe<span>Auto</span></a>
+        
+        <button class="mobile-toggle" id="mobileToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="nav-menu" id="navMenu">
+            <a href="#" class="nav-link">Accueil</a>
+            <a href="#" class="nav-link">Collections</a>
+            <a href="#" class="nav-link">Services</a>
+            <a href="#" class="nav-link">À propos</a>
+            <a href="#" class="nav-link">Contact</a>
+        </div>
+        
+        <div class="nav-actions">
+            <button class="action-btn" id="searchBtn">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="action-btn">
+                <i class="fas fa-user"></i>
+            </button>
+            <button class="action-btn" id="cartBtn">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Découvrez l'Excellence Automobile</h1>
+        <p>Parcourez notre collection exclusive de véhicules de luxe et de service, alliant performance, élégance et innovation.</p>
+        <button class="cta-btn">Explorer la collection</button>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filters">
+        <div class="filter-container">
+            <div class="filter-group">
+                <button class="filter-btn active">Tous</button>
+                <button class="filter-btn">Personnelles</button>
+                <button class="filter-btn">De service</button>
+                <button class="filter-btn">Électriques</button>
+                <button class="filter-btn">Sportives</button>
+            </div>
+            
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Rechercher un véhicule...">
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products">
+        <h2 class="section-title">Véhicules Personnels</h2>
+        
+        <div class="products-grid">
+            <!-- Tesla 1 -->
+            <div class="product-card">
+                <span class="product-badge">Nouveau</span>
+                <img src="DT_web_001.jpg" alt="Tesla blanche" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Tesla</div>
+                    <h3 class="product-title">Model S Performance</h3>
+                    <p class="product-desc">Véhicule électique haut de gamme avec autonomie étendue. Couleur: blanche</p>
+                    <div class="product-price">50 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tesla 2 -->
+            <div class="product-card">
+                <span class="product-badge">Populaire</span>
+                <img src="DT_web_002.jpg" alt="Tesla jaune" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Tesla</div>
+                    <h3 class="product-title">Model Y</h3>
+                    <p class="product-desc">SUV électique spacieux et performant. Couleur: jaune</p>
+                    <div class="product-price">50 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tesla 3 -->
+            <div class="product-card">
+                <img src="DT_web_003.jpg" alt="Tesla blanche" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Tesla</div>
+                    <h3 class="product-title">Model 3</h3>
+                    <p class="product-desc">Compacte électique à autonomie étendue. Couleur: blanche</p>
+                    <div class="product-price">50 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ferrari 1 -->
+            <div class="product-card">
+                <span class="product-badge">Exclusivité</span>
+                <img src="DT_web_004.jpg" alt="Ferrari rouge" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Ferrari</div>
+                    <h3 class="product-title">F8 Tributo</h3>
+                    <p class="product-desc">Supercar italienne légendaire aux performances exceptionnelles. Couleur: rouge</p>
+                    <div class="product-price">40 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ferrari 2 -->
+            <div class="product-card">
+                <img src="DT_web_005.jpg" alt="Ferrari ouverte" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Ferrari</div>
+                    <h3 class="product-title">Portofino M</h3>
+                    <p class="product-desc">Cabriolet GT au design raffiné et aux performances dynamiques. Toit ouvrant</p>
+                    <div class="product-price">40 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bughatti -->
+            <div class="product-card">
+                <span class="product-badge">Limited</span>
+                <img src="DT_web_006.jpg" alt="BUGHATTI" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Bughatti</div>
+                    <h3 class="product-title">Chiron Sport</h3>
+                    <p class="product-desc">Hypercar exclusive, sommet de l'ingénierie automobile et du luxe.</p>
+                    <div class="product-price">40 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GMC 1 -->
+            <div class="product-card">
+                <img src="DT_web_007.jpg" alt="GMC devant" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">GMC</div>
+                    <h3 class="product-title">Yukon Denali</h3>
+                    <p class="product-desc">SUV full-size américain au design imposant et à l'habitabilité généreuse.</p>
+                    <div class="product-price">35 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GMC 2 -->
+            <div class="product-card">
+                <img src="DT_web_008.jpg" alt="GMC" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">GMC</div>
+                    <h3 class="product-title">Sierra 1500</h3>
+                    <p class="product-desc">Pick-up robuste et polyvalent, alliant puissance et confort.</p>
+                    <div class="product-price">35 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GMC 3 -->
+            <div class="product-card">
+                <span class="product-badge">Complet</span>
+                <img src="DT_web_009.jpg" alt="GMC complète" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">GMC</div>
+                    <h3 class="product-title">Acadia</h3>
+                    <p class="product-desc">SUV familial spacieux avec équipements haut de gamme et technologies avancées.</p>
+                    <div class="product-price">35 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Luxe 1 -->
+            <div class="product-card">
+                <span class="product-badge">Prestige</span>
+                <img src="DT_web_010.jpg" alt="Voiture de luxe Millionnaire" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Luxe</div>
+                    <h3 class="product-title">Millionnaire Edition</h3>
+                    <p class="product-desc">Édition exclusive pour connaisseurs exigeants, finitions sur-mesure.</p>
+                    <div class="product-price">45 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Luxe 2 -->
+            <div class="product-card">
+                <img src="DT_web_011.jpg" alt="Voiture de luxe Belle Vie" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Luxe</div>
+                    <h3 class="product-title">Belle Vie</h3>
+                    <p class="product-desc">Expérience de conduite ultime, alliant élégance et performance.</p>
+                    <div class="product-price">45 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Luxe 3 -->
+            <div class="product-card">
+                <span class="product-badge">Électrique</span>
+                <img src="DT_web_012.jpg" alt="Tesla de luxe" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Luxe</div>
+                    <h3 class="product-title">Tesla Premium</h3>
+                    <p class="product-desc">Version luxe du Model S avec intérieur cuir premium et équipements exclusifs.</p>
+                    <div class="product-price">55 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title" style="margin-top: 4rem;">Véhicules de Service</h2>
+        
+        <div class="products-grid">
+            <!-- Police 1 -->
+            <div class="product-card">
+                <span class="product-badge">Service</span>
+                <img src="DT_web_013.jpg" alt="Voiture de police" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Police</div>
+                    <h3 class="product-title">Intercepteur Standard</h3>
+                    <p class="product-desc">Véhicule d'intervention rapide, équipé pour les forces de l'ordre.</p>
+                    <div class="product-price">20 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Police 2 -->
+            <div class="product-card">
+                <span class="product-badge">Service</span>
+                <img src="DT_web_014.jpg" alt="Voiture de police" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Police</div>
+                    <h3 class="product-title">Unitée Spéciale</h3>
+                    <p class="product-desc">Véhicule renforcé pour unités spéciales, équipements de sécurité avancés.</p>
+                    <div class="product-price">20 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Police 3 -->
+            <div class="product-card">
+                <span class="product-badge">Service</span>
+                <img src="DT_web_015.jpg" alt="Voiture de police" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Police</div>
+                    <h3 class="product-title">Patrouille Urbaine</h3>
+                    <p class="product-desc">Véhicule de patrouille compact pour interventions en milieu urbain.</p>
+                    <div class="product-price">20 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ambulance 1 -->
+            <div class="product-card">
+                <span class="product-badge">Médical</span>
+                <img src="DT_web_016.jpg" alt="Ambulance" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Ambulance</div>
+                    <h3 class="product-title">Urgence Médicale</h3>
+                    <p class="product-desc">Véhicule médicalisé équipé pour les interventions d'urgence.</p>
+                    <div class="product-price">15 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ambulance 2 -->
+            <div class="product-card">
+                <span class="product-badge">Médical</span>
+                <img src="DT_web_017.jpg" alt="Ambulance" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Ambulance</div>
+                    <h3 class="product-title">Transport Sanitaire</h3>
+                    <p class="product-desc">Ambulance de transport avec équipements de soins intensifs.</p>
+                    <div class="product-price">15 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ambulance 3 -->
+            <div class="product-card">
+                <span class="product-badge">Médical</span>
+                <img src="DT_web_018.jpg" alt="Ambulance" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Ambulance</div>
+                    <h3 class="product-title">Unité Mobile</h3>
+                    <p class="product-desc">Véhicule d'intervention rapide pour premiers secours et soins d'urgence.</p>
+                    <div class="product-price">15 000 €</div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Ajouter
+                        </button>
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <h2 class="section-title">Nos Catégories</h2>
+        
+        <div class="categories-grid">
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3 class="category-title">Véhicules Personnels</h3>
+                <p class="category-desc">Découvrez notre sélection de véhicules de luxe pour usage personnel, alliant performance, confort et élégance.</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="category-title">Véhicules de Service</h3>
+                <p class="category-desc">Des véhicules spécialisés pour les services publics et professionnels, robustes et fonctionnels.</p>
+            </div>
+            
+            <div class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-charging-station"></i>
+                </div>
+                <h3 class="category-title">Véhicules Électriques</h3>
+                <p class="category-desc">Explorez notre gamme de véhicules électiques, innovants et respectueux de l'environnement.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">Luxe<span>Auto</span></a>
+                <p class="footer-desc">Votre partenaire de confiance pour l'acquisition de véhicules de luxe et de service depuis 2010.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h3 class="footer-title">Liens Rapides</h3>
+                <ul>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Collections</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Services</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> À propos</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3 class="footer-title">Catégories</h3>
+                <ul>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Véhicules Personnels</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Véhicules de Service</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Véhicules Électriques</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Véhicules Sportives</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Éditions Limitée</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links">
+                <h3 class="footer-title">Contactez-nous</h3>
+                <ul>
+                    <li class="footer-link"><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Avenue des Champs-Élysées, Paris</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-phone"></i> +228 98 14 48 46</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-envelope"></i> info@luxeauto.fr</a></li>
+                    <li class="footer-link"><a href="#"><i class="fas fa-clock"></i> Lun-Ven: 9h-18h | Sam: 10h-16h</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 LuxeAuto. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+<div class="cart-modal" id="cartModal">
+    <div class="cart-header">
+        <h2>Votre Panier</h2>
+        <button class="close-cart" id="closeCart">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <div class="cart-items" id="cartItems">
+        <!-- Cart items will be dynamically added here -->
+    </div>
+    
+    <div class="cart-total" id="cartTotal">
+        Total: 0,00 €
+    </div>
+    
+    <button class="checkout-btn" id="checkoutBtn">Procéder au Paiement</button>
+    
+    <!-- Payment Section (initially hidden) -->
+    <div class="payment-section" id="paymentSection" style="display: none;">
+        <h3>Informations de Paiement</h3>
+        
+        <div class="payment-total" id="paymentTotal">
+            Total à payer: 0,00 €
+        </div>
+        
+        <!-- PayPal Button Container -->
+        <div id="paypal-button-container" style="margin-top:10px;"></div>
+    </div>
+</div>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay"></div>
+
+<!-- JavaScript -->
+<script>
+    // State management
+    const state = {
+        cart: JSON.parse(localStorage.getItem('cart')||'{}'),
+        currency: 'EUR',
+        clientId: 'AYCAZd2X6vYmz_sjtKcDRWdYipvNq4_A616TKTTw7-zWKMl0mVf3b0obZhNWxJlVsCHSUY5jDCN1XJ2T', // Remplace par ton vrai Client ID PayPal
+        sdkLoaded: false
+    };
+
+    // DOM Elements
+    const cartBtn = document.getElementById('cartBtn');
+    const closeCart = document.getElementById('closeCart');
+    const cartModal = document.getElementById('cartModal');
+    const overlay = document.getElementById('overlay');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const paymentSection = document.getElementById('paymentSection');
+    const paymentTotal = document.getElementById('paymentTotal');
+
+    // Event Listeners
+    cartBtn.addEventListener('click', openCart);
+    closeCart.addEventListener('click', closeCartModal);
+    overlay.addEventListener('click', closeCartModal);
+    checkoutBtn.addEventListener('click', proceedToPayment);
+
+    // Initialize
+    updateCartUI();
+
+    // Functions
+    function openCart() {
+        cartModal.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCartModal() {
+        cartModal.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    function updateCartUI() {
+        cartItems.innerHTML = '';
+        const cartCount = Object.keys(state.cart).length;
+        document.querySelector('.cart-count').textContent = cartCount;
+        
+        if (cartCount === 0) {
+            cartItems.innerHTML = '<p style="text-align: center; padding: 2rem;">Votre panier est vide</p>';
+            cartTotal.textContent = 'Total: 0,00 €';
+            checkoutBtn.disabled = true;
+            checkoutBtn.style.opacity = '0.7';
+            return;
+        }
+        
+        checkoutBtn.disabled = false;
+        checkoutBtn.style.opacity = '1';
+        
+        let total = 0;
+        for (const [id, item] of Object.entries(state.cart)) {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            
+            const cartItemElement = document.createElement('div');
+            cartItemElement.className = 'cart-item';
+            cartItemElement.innerHTML = `
+                <img src="${item.image}" alt="${item.title}">
+                <div class="cart-item-details">
+                    <div class="cart-item-title">${item.title}</div>
+                    <div class="cart-item-price">${formatPrice(item.price)}</div>
+                    <div class="cart-item-actions">
+                        <button class="quantity-btn" onclick="decreaseQuantity('${id}')">-</button>
+                        <span class="item-quantity">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="increaseQuantity('${id}')">+</button>
+                        <button class="remove-item" onclick="removeFromCart('${id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            cartItems.appendChild(cartItemElement);
+        }
+        
+        cartTotal.textContent = `Total: ${formatPrice(total)}`;
+    }
+
+    function formatPrice(price) {
+        return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: state.currency }).format(price);
+    }
+
+    function addToCart(id, title, price, image) {
+        if (state.cart[id]) {
+            state.cart[id].quantity += 1;
+        } else {
+            state.cart[id] = { title, price, image, quantity: 1 };
+        }
+        localStorage.setItem('cart', JSON.stringify(state.cart));
+        updateCartUI();
+        showNotification(`${title} a été ajouté au panier`);
+    }
+
+    function removeFromCart(id) {
+        if (state.cart[id]) {
+            delete state.cart[id];
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+            updateCartUI();
+        }
+    }
+
+    function increaseQuantity(id) {
+        if (state.cart[id]) {
+            state.cart[id].quantity += 1;
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+            updateCartUI();
+        }
+    }
+
+    function decreaseQuantity(id) {
+        if (state.cart[id]) {
+            state.cart[id].quantity -= 1;
+            if (state.cart[id].quantity <= 0) {
+                delete state.cart[id];
+            }
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+            updateCartUI();
+        }
+    }
+
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.style.position = 'fixed';
+        notification.style.bottom = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = '#333';
+        notification.style.color = 'white';
+        notification.style.padding = '1rem';
+        notification.style.borderRadius = '5px';
+        notification.style.zIndex = '10000';
+        notification.style.boxShadow = '0 3px 10px rgba(0, 0, 0, 0.2)';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transition = 'opacity 0.5s';
+            setTimeout(() => notification.remove(), 500);
+        }, 3000);
+    }
+
+    function proceedToPayment() {
+        checkoutBtn.style.display = 'none';
+        paymentSection.style.display = 'block';
+        const total = calculateTotal();
+        paymentTotal.textContent = `Total à payer: ${formatPrice(total)}`;
+        loadPayPalSDK();
+    }
+
+    function calculateTotal() {
+        return Object.values(state.cart).reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+
+    function loadPayPalSDK() {
+        if (state.sdkLoaded) return;
+        const script = document.createElement('script');
+        script.src = `https://www.paypal.com/sdk/js?client-id=${state.clientId}&currency=${state.currency}`;
+        script.addEventListener('load', () => {
+            state.sdkLoaded = true;
+            renderPayPalButtons();
+        });
+        document.body.appendChild(script);
+    }
+
+    function renderPayPalButtons() {
+        if (!state.sdkLoaded) return;
+        paypal.Buttons({
+            createOrder: (data, actions) => actions.order.create({
+                purchase_units: [{
+                    amount: { value: calculateTotal().toFixed(2), currency_code: state.currency }
+                }]
+            }),
+            onApprove: (data, actions) => actions.order.capture().then(details => {
+                alert('Transaction complétée par ' + details.payer.name.given_name);
+                clearCart();
+                closeCartModal();
+            }),
+            onError: (err) => {
+                console.error('PayPal Checkout onError', err);
+                alert('Une erreur est survenue lors du paiement. Veuillez réessayer.');
+            }
+        }).render('#paypal-button-container');
+    }
+
+    function clearCart() {
+        state.cart = {};
+        localStorage.setItem('cart', JSON.stringify(state.cart));
+        updateCartUI();
+        checkoutBtn.style.display = 'block';
+        paymentSection.style.display = 'none';
+    }
+
+    // Add event listeners to all "Add to Cart" buttons
+    document.querySelectorAll('.add-to-cart').forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const card = button.closest('.product-card');
+            const title = card.querySelector('.product-title').textContent;
+            const priceText = card.querySelector('.product-price').textContent;
+            const price = parseFloat(priceText.replace(/[^\d,]/g, '').replace(',', '.'));
+            const image = card.querySelector('.product-image').src;
+            addToCart(index, title, price, image);
+        });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+:root{
+      --bg:#0b1022;
+      --panel:#0f172a;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --accent:#3b82f6;
+      --danger:#ef4444;
+      --success:#22c55e;
+      --border:#1f2937;
+      --chip:#111827;
+      --license-basic:#3b82f6;
+      --license-pro:#8b5cf6;
+      --license-enterprise:#ec4899;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(120deg,#0b1022,#1f2937);color:var(--text);font:15px/1.55 system-ui,Segoe UI,Roboto,Helvetica,Arial}
+    header{position:sticky;top:0;background:#0b1022cc;border-bottom:1px solid var(--border);backdrop-filter:blur(8px);z-index:50}
+    .wrap{max-width:1200px;margin:0 auto;padding:18px}
+    .row{display:flex;align-items:center;gap:12px}
+    h1{margin:0;font-size:1.3rem;letter-spacing:.3px}
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:22px;margin-top:18px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 30px #0006}
+    .card .hd{padding:16px 18px;border-bottom:1px solid var(--border);font-weight:700}
+    .card .bd{padding:18px}
+    .catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+    .item{border:1px solid #223047;border-radius:14px;overflow:hidden;background:#0d1726;display:flex;flex-direction:column;transition:transform 0.2s}
+    .item:hover{transform:translateY(-5px)}
+    .item img{width:100%;aspect-ratio:16/9;object-fit:contain;background:#0b1220;padding:10px}
+    .item .meta{padding:12px;display:flex;flex-direction:column;gap:8px;flex-grow:1}
+    .price{font-weight:800;font-size:1.2rem}
+    .muted{color:var(--muted);font-size:.9rem}
+    .chip{display:inline-flex;align-items:center;gap:6px;background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:6px 10px;font-size:.82rem}
+    .license-type{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:10px 0}
+    .license-option{flex:1;text-align:center;padding:8px;cursor:pointer;background:#0b1220;transition:background 0.2s}
+    .license-option:hover{background:#14213e}
+    .license-option.selected{background:var(--accent);color:white;font-weight:bold}
+    .license-basic.selected{background:var(--license-basic)}
+    .license-pro.selected{background:var(--license-pro)}
+    .license-enterprise.selected{background:var(--license-enterprise)}
+    button{cursor:pointer;border:0;border-radius:999px;padding:10px 14px;font-weight:700}
+    .btn{background:#233557;color:#fff}
+    .btn:hover{filter:brightness(1.06)}
+    .btn-ghost{background:transparent;border:1px dashed #2a3b55;color:#cbd5e1}
+    .btn-danger{background:var(--danger);color:#fff}
+    .btn-success{background:var(--success);color:#fff}
+    .cart-line{display:grid;grid-template-columns:1fr 112px 28px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed #223047}
+    .qty{display:flex;align-items:center;gap:6px}
+    .qty button{padding:6px 10px;border-radius:8px}
+    .totals{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #223047;font-size:1rem}
+    .totals .row{justify-content:space-between}
+    .cfg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    input, select{width:100%;background:#0b1220;color:#e2e8f0;border:1px solid #223047;border-radius:10px;padding:10px}
+    label{font-size:.84rem;color:#9ca3af}
+    details{border-radius:12px}
+    footer{color:#94a3b8;text-align:center;padding:24px 0}
+    .ok{color:#22c55e}
+    .err{color:#ef4444}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #223047;background:#0b1220;font-size:.75rem;color:#9ca3af}
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .form .full{grid-column:1/-1}
+    .notice{font-size:.88rem;color:#9ca3af;background:#0b1220;border:1px dashed #223047;padding:10px;border-radius:12px}
+    .feature-list{margin:10px 0;padding-left:20px}
+    .feature-list li{margin-bottom:5px;font-size:0.9rem}
+    .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75rem;margin-right:5px}
+    .tag-new{background:#22c55e;color:white}
+    .tag-popular{background:#3b82f6;color:white}
+    .tag-ai{background:#8b5cf6;color:white}
+    @media (max-width:1000px){.grid{grid-template-columns:1fr}}
